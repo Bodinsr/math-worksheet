@@ -9,6 +9,130 @@ body {
     padding: 20px;
 }
 
+.vertical-question-grid {
+    display: grid;
+    gap: 6px 12px;
+    align-items: start;
+    width: 100%;
+}
+
+.vertical-question-grid--col-1 {
+    grid-template-columns: 1fr;
+}
+
+.vertical-question-grid--col-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vertical-question-grid--col-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.vertical-question-grid--col-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.vertical-question-grid--col-4 .vertical-question {
+    font-size: 18px;
+}
+
+.vertical-question-grid--col-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.vertical-question-grid--col-5 .vertical-question {
+    font-size: 16px;
+}
+
+.vertical-question-grid--col-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.vertical-question-grid--col-6 .vertical-question {
+    font-size: 14px;
+}
+
+.vertical-question-grid--col-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.vertical-question-grid--col-7 .vertical-question {
+    font-size: 14px;
+}
+
+.vertical-question-grid--col-8 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+}
+
+.vertical-question-grid--col-8 .vertical-question {
+    font-size: 12px;
+}
+
+.vertical-question {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: max-content;
+    min-width: 8ch;
+    margin: 4px 0 6px;
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+    line-height: 1.1;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.vertical-number-row {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    min-width: 6ch;
+    min-height: 1.2em;
+}
+
+.vertical-operator-row {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    min-width: 6ch;
+    min-height: 1.2em;
+    align-items: center;
+    margin: 0;
+    margin-right: -1.5ch;
+}
+
+.vertical-number {
+    display: inline-block;
+    text-align: right;
+    min-width: 3ch;
+}
+
+.vertical-operator {
+    display: inline-block;
+    text-align: right;
+    min-width: 1.5ch;
+    margin-left: 1ch;
+}
+
+.vertical-line {
+    width: 100%;
+    border-bottom: 2px solid #000;
+    margin: 3px 0 2px;
+}
+
+.vertical-answer {
+    min-height: 1.2em;
+    width: 100%;
+    text-align: right;
+    margin-top: 2px;
+}
+
+.vertical-answer-line {
+    width: 100%;
+    border-bottom: 4px double #000;
+    margin-top: 2px;
+}
+
 @page {
     size: A4;
     margin: 10mm;

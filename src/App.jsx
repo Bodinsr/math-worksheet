@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { generateAddition } from "./generators/addition";
 import { generateSubtraction } from "./generators/subtraction";
+import VerticalQuestion from "./components/VerticalQuestion";
 import "./App.css";
 const generators = {
   "การบวก": generateAddition,
@@ -15,6 +16,7 @@ function App() {
   const [questionType, setQuestionType] = useState("ไม่มีตัวทด");
   const [worksheet, setWorksheet] = useState([]);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [displayMode, setDisplayMode] = useState("Horizontal");
 
   function createWorksheet() {
 
@@ -52,6 +54,70 @@ function getQuestionStyle() {
   };
 
 }
+
+function renderWorksheetContent() {
+  if (worksheet.length === 0) {
+    return <p>กด "สร้างใบงาน"</p>;
+  }
+
+  if (displayMode === "Vertical") {
+    // Dynamically calculate columns to keep ~6 rows
+    const columns = Math.ceil(questionCount / 6);
+    const gridClassName = `vertical-question-grid vertical-question-grid--col-${columns}`;
+
+    return (
+      <div className={gridClassName}>
+        {worksheet.map((item) => (
+          <VerticalQuestion
+            key={item.id}
+            item={item}
+            showAnswer={showAnswer}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <table
+      style={{
+        width: "100%",
+        borderCollapse: "collapse",
+      }}
+    >
+      <tbody>
+        {Array.from({
+          length: Math.ceil(worksheet.length / 2),
+        }).map((_, i) => (
+          <tr key={i}>
+            <td
+              style={{
+                width: "50%",
+                verticalAlign: "top",
+                ...getQuestionStyle(),
+              }}
+            >
+              {formatQuestion(worksheet[i])}
+            </td>
+
+            <td
+              style={{
+                width: "50%",
+                verticalAlign: "top",
+                ...getQuestionStyle(),
+              }}
+            >
+              {formatQuestion(
+                worksheet[i + Math.ceil(worksheet.length / 2)]
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
   return (
     <div className="container">
       <h1>🧮 โปรแกรมสร้างใบงานคณิตศาสตร์</h1>
@@ -132,6 +198,33 @@ function getQuestionStyle() {
     </>
   )}
 </select>
+      </div>
+
+      <br />
+
+      <div>
+        <label>การแสดงผล</label>
+        <br />
+        <label style={{ marginRight: "12px" }}>
+          <input
+            type="radio"
+            name="displayMode"
+            value="Horizontal"
+            checked={displayMode === "Horizontal"}
+            onChange={() => setDisplayMode("Horizontal")}
+          />
+          แนวนอน
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="displayMode"
+            value="Vertical"
+            checked={displayMode === "Vertical"}
+            onChange={() => setDisplayMode("Vertical")}
+          />
+          ตั้งคำนวณ
+        </label>
       </div>
 
       <br />
@@ -259,46 +352,7 @@ function getQuestionStyle() {
 
         <hr />
 
-        {worksheet.length === 0 ? (
-          <p>กด "สร้างใบงาน"</p>
-        ) : (
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-            }}
-          >
-            <tbody>
-              {Array.from({
-                length: Math.ceil(worksheet.length / 2),
-              }).map((_, i) => (
-                <tr key={i}>
-                  <td
-  style={{
-    width: "50%",
-    verticalAlign: "top",
-    ...getQuestionStyle(),
-  }}
->
-                  {formatQuestion(worksheet[i])}
-                  </td>
-
-                  <td
-  style={{
-    width: "50%",
-    verticalAlign: "top",
-    ...getQuestionStyle(),
-  }}
->
-                    {formatQuestion(
-  worksheet[i + Math.ceil(worksheet.length / 2)]
-)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+        {renderWorksheetContent()}
       </div>
     </div>
   );
