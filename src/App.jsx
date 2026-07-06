@@ -125,168 +125,158 @@ function renderWorksheetContent() {
 
       <h3>ตั้งค่าใบงาน</h3>
 
-      <div>
-        <label>ชั้นเรียน</label>
-        <br />
-        <select
-          value={grade}
-          onChange={(e) => setGrade(e.target.value)}
-        >
-          <option>ป.1</option>
-          <option>ป.2</option>
-          <option>ป.3</option>
-          <option>ป.4</option>
-          <option>ป.5</option>
-          <option>ป.6</option>
-        </select>
-      </div>
+      <div className="settings-grid">
+        {/* Row 1 */}
+        <div className="setting-group">
+          <label htmlFor="grade">ชั้นเรียน</label>
+          <select
+            id="grade"
+            value={grade}
+            onChange={(e) => setGrade(e.target.value)}
+          >
+            <option>ป.1</option>
+            <option>ป.2</option>
+            <option>ป.3</option>
+            <option>ป.4</option>
+            <option>ป.5</option>
+            <option>ป.6</option>
+          </select>
+        </div>
 
-      <br />
+        <div className="setting-group">
+          <label htmlFor="topic">เรื่อง</label>
+          <select
+            id="topic"
+            value={topic}
+            onChange={(e) => {
+              setTopic(e.target.value);
+              if (e.target.value === "การบวก") {
+                setQuestionType("ไม่มีตัวทด");
+              }
+              if (e.target.value === "การลบ") {
+                setQuestionType("ไม่มียืม");
+              }
+            }}
+          >
+            <option>การบวก</option>
+            <option>การลบ</option>
+          </select>
+        </div>
 
-      <div>
-        <label>เรื่อง</label>
-        <br />
-        <select
-  value={topic}
-  onChange={(e) => {
+        <div className="setting-group">
+          <label htmlFor="question-type">รูปแบบ</label>
+          <select
+            id="question-type"
+            value={questionType}
+            onChange={(e) => {
+              setQuestionType(e.target.value);
+            }}
+          >
+            {topic === "การบวก" ? (
+              <>
+                <option>ไม่มีตัวทด</option>
+                <option>มีตัวทด</option>
+                <option>คละ</option>
+              </>
+            ) : (
+              <>
+                <option>ไม่มียืม</option>
+                <option>มียืม</option>
+                <option>คละ</option>
+              </>
+            )}
+          </select>
+        </div>
 
-    setTopic(e.target.value);
+        {/* Row 2 */}
+        <div className="setting-group">
+          <label>การแสดงผล</label>
+          <div className="radio-group">
+            <label>
+              <input
+                type="radio"
+                name="displayMode"
+                value="Horizontal"
+                checked={displayMode === "Horizontal"}
+                onChange={() => setDisplayMode("Horizontal")}
+              />
+              แนวนอน
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="displayMode"
+                value="Vertical"
+                checked={displayMode === "Vertical"}
+                onChange={() => setDisplayMode("Vertical")}
+              />
+              ตั้งคำนวณ
+            </label>
+          </div>
+        </div>
 
-    if (e.target.value === "การบวก") {
+        <div className="setting-group">
+          <label htmlFor="digits">จำนวนหลัก</label>
+          <select
+            id="digits"
+            value={digits}
+            onChange={(e) => setDigits(Number(e.target.value))}
+          >
+            <option value={1}>1 หลัก</option>
+            <option value={2}>2 หลัก</option>
+            <option value={3}>3 หลัก</option>
+            <option value={4}>4 หลัก</option>
+          </select>
+        </div>
 
-      setQuestionType("ไม่มีตัวทด");
-
-    }
-
-    if (e.target.value === "การลบ") {
-
-      setQuestionType("ไม่มียืม");
-
-    }
-
-  }}
->
-          <option>การบวก</option>
-          <option>การลบ</option>
-        </select>
-      </div>
-
-      <br />
-
-      <div>
-        <label>รูปแบบ</label>
-        <br />
-        <select
-  value={questionType}
-  onChange={(e) => {
-
-    setQuestionType(e.target.value);
-
-  }}
->
-  {topic === "การบวก" ? (
-    <>
-      <option>ไม่มีตัวทด</option>
-      <option>มีตัวทด</option>
-      <option>คละ</option>
-    </>
-  ) : (
-    <>
-      <option>ไม่มียืม</option>
-      <option>มียืม</option>
-      <option>คละ</option>
-    </>
-  )}
-</select>
-      </div>
-
-      <br />
-
-      <div>
-        <label>การแสดงผล</label>
-        <br />
-        <label style={{ marginRight: "12px" }}>
+        <div className="setting-group">
+          <label htmlFor="question-count">จำนวนข้อ</label>
           <input
-            type="radio"
-            name="displayMode"
-            value="Horizontal"
-            checked={displayMode === "Horizontal"}
-            onChange={() => setDisplayMode("Horizontal")}
+            id="question-count"
+            type="number"
+            min="1"
+            max="40"
+            value={questionCount}
+            onChange={(e) => setQuestionCount(Number(e.target.value))}
           />
-          แนวนอน
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="displayMode"
-            value="Vertical"
-            checked={displayMode === "Vertical"}
-            onChange={() => setDisplayMode("Vertical")}
-          />
-          ตั้งคำนวณ
-        </label>
+        </div>
+
+        {/* Row 3 */}
+        <div className="setting-group">
+          <button className="btn-primary" onClick={createWorksheet}>
+            🎲 สร้างใบงาน
+          </button>
+        </div>
+
+        <div className="setting-group">
+          <button
+            className="btn-secondary"
+            onClick={() => {
+              setShowAnswer(false);
+              setTimeout(() => window.print(), 100);
+            }}
+          >
+            🖨️ พิมพ์ใบงาน
+          </button>
+        </div>
+
+        <div className="setting-group">
+          <button
+            className="btn-secondary"
+            onClick={() => {
+              setShowAnswer(true);
+              setTimeout(() => {
+                window.print();
+                setShowAnswer(false);
+              }, 100);
+            }}
+          >
+            📖 พิมพ์เฉลย
+          </button>
+        </div>
       </div>
-
-      <br />
-
-      <div>
-        <label>จำนวนหลัก</label>
-        <br />
-        <select
-          value={digits}
-          onChange={(e) => setDigits(Number(e.target.value))}
-        >
-          <option value={1}>1 หลัก</option>
-          <option value={2}>2 หลัก</option>
-          <option value={3}>3 หลัก</option>
-          <option value={4}>4 หลัก</option>
-        </select>
-      </div>
-
-      <br />
-
-      <div>
-        
-        <label>จำนวนข้อ</label>
-        <br />
-        <input
-          type="number"
-          min="1"
-          max="40"
-          value={questionCount}
-          onChange={(e) => setQuestionCount(Number(e.target.value))}
-        />
-      </div>
-      
-
-      <br />
-
-      <button onClick={createWorksheet}>
-        🎲 สร้างใบงาน
-      </button>
-
-      <button
-  style={{ marginLeft: "10px" }}
-  onClick={() => {
-    setShowAnswer(false);
-    setTimeout(() => window.print(), 100);
-  }}
->
-  🖨️ พิมพ์ใบงาน
-</button>
 
       <hr />
-<button
-  onClick={() => {
-    setShowAnswer(true);
-    setTimeout(() => {
-      window.print();
-      setShowAnswer(false);
-    }, 100);
-  }}
->
-  📖 พิมพ์เฉลย
-</button>
       <div
         id="worksheet"
         style={{
@@ -297,26 +287,26 @@ function renderWorksheetContent() {
         }}
       >
         <h2 style={{ textAlign: "center" }}>
-  ใบงานคณิตศาสตร์
-</h2>
+          ใบงานคณิตศาสตร์
+        </h2>
 
-<h3
-  style={{
-    textAlign: "center",
-    fontWeight: "normal",
-  }}
->
-  เรื่อง {topic}
-</h3>
+        <h3
+          style={{
+            textAlign: "center",
+            fontWeight: "normal",
+          }}
+        >
+          เรื่อง {topic}
+        </h3>
 
-<p
-  style={{
-    textAlign: "center",
-    marginBottom: "20px",
-  }}
->
-  จำนวน {digits} หลัก  {questionType}  {questionCount} ข้อ
-</p>
+        <p
+          style={{
+            textAlign: "center",
+            marginBottom: "20px",
+          }}
+        >
+          จำนวน {digits} หลัก  {questionType}  {questionCount} ข้อ
+        </p>
 
         <p
   style={{
