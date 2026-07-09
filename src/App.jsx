@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { generateAddition } from "./generators/addition";
 import { generateSubtraction } from "./generators/subtraction";
+import { generateMixed } from "./generators/mixed";
 import VerticalQuestion from "./components/VerticalQuestion";
 import "./App.css";
 const generators = {
   "การบวก": generateAddition,
   "การลบ": generateSubtraction,
+  "คละบวก-ลบ": generateMixed,
 };
 
 function App() {
@@ -156,10 +158,14 @@ function renderWorksheetContent() {
               if (e.target.value === "การลบ") {
                 setQuestionType("ไม่มียืม");
               }
+              if (e.target.value === "คละบวก-ลบ") {
+                setQuestionType("ไม่มีตัวทด/ไม่มียืม");
+              }
             }}
           >
             <option>การบวก</option>
             <option>การลบ</option>
+            <option>คละบวก-ลบ</option>
           </select>
         </div>
 
@@ -178,10 +184,16 @@ function renderWorksheetContent() {
                 <option>มีตัวทด</option>
                 <option>คละ</option>
               </>
-            ) : (
+            ) : topic === "การลบ" ? (
               <>
                 <option>ไม่มียืม</option>
                 <option>มียืม</option>
+                <option>คละ</option>
+              </>
+            ) : (
+              <>
+                <option>ไม่มีตัวทด/ไม่มียืม</option>
+                <option>มีตัวทด/มียืม</option>
                 <option>คละ</option>
               </>
             )}

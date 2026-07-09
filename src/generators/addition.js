@@ -29,7 +29,15 @@ export function generateAddition(options) {
 
   while (questions.length < count) {
     const a = randomNumber(digits);
-    const b = randomNumber(digits);
+    let bDigits = 1;
+
+    if (digits === 2) {
+      bDigits = Math.random() < 0.5 ? 1 : 2;
+    } else if (digits >= 3) {
+      bDigits = Math.floor(Math.random() * (digits - 1)) + 2;
+    }
+
+    const b = randomNumber(bDigits);
 
     const key = `${a}+${b}`;
 
